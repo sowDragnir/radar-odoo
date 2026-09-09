@@ -11,7 +11,7 @@ import logging
 import os
 from pathlib import Path
 
-from . import config, match, notify, sources, store
+from . import config, gmail, match, notify, sources, store
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -99,6 +99,12 @@ def main() -> int:
         log.info("Notion: %d fichas creadas", len(paginas))
 
         log.info("Telegram: %d avisos enviados", notify.telegram(nuevas))
+
+        # Borrador en Gmail para las que traen contacto: queda en Borradores,
+        # con el CV adjunto, listo para revisar y enviar a mano.
+        creados = gmail.borradores(nuevas)
+        if creados:
+            log.info("Gmail: %d borradores en la carpeta Borradores", creados)
         store.mark_notified(conn, nuevas)
     else:
         log.info("Sin novedades, no molesto")
