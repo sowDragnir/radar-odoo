@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS ajustes (
 EXTRA = [
     "ALTER TABLE jobs ADD COLUMN notion_page TEXT",
     "ALTER TABLE jobs ADD COLUMN email TEXT",
+    "ALTER TABLE watch ADD COLUMN texto TEXT",
 ]
 
 
@@ -101,13 +102,28 @@ def mark_notified(conn: sqlite3.Connection, jobs: list[dict]) -> None:
     conn.commit()
 
 
-def page_changed(conn: sqlite3.Connection, url: str, name: str, digest: str) -> bool:
-    """True si la pagina de empleo de un partner ha cambiado desde la ultima vez."""
-    row = conn.execute("SELECT digest FROM watch WHERE url=?", (url,)).fetchone()
+TOLERANCIA = 4  # palabras de diferencia que no merecen un aviso
+
+
+def page_changed(conn: sqlite3.Connection, url: str, name: str, texto: str) -> bool:
+    """True si la pagina de empleo de un partner ha cambiado de verdad.
+
+    Comparar hashes hacia saltar la alarma por una sola palabra distinta, y
+    muchas webs rotan testimonios, noticias o un contador. Se guarda el texto
+    normalizado y se exige que el vocabulario cambie en mas de TOLERANCIA
+    palabras: una oferta nueva mueve decenas, un carrusel mueve dos.
+    """
+    row = conn.execute("SELECT texto FROM watch WHERE url=?", (url,)).fetchone()
     conn.execute(
-        "INSERT INTO watch (url,name,digest) VALUES (?,?,?)"
-        " ON CONFLICT(url) DO UPDATE SET digest=excluded.digest, checked_at=CURRENT_TIMESTAMP",
-        (url, name, digest),
+        "INSERT INTO watch (url,name,digest,texto) VALUES (?,?,?,?)"
+        " ON CONFLICT(url) DO UPDATE SET texto=excluded.texto,"
+        " digest=excluded.digest, checked_at=CURRENT_TIMESTAMP",
+        (url, name, hashlib.sha1(texto.encode("utf-8")).hexdigest(), texto),
     )
     conn.commit()
-    return row is not None and row["digest"] != digest
+
+    if row is None or not row["texto"]:
+        return False  # primera vez: solo memorizar, nunca avisar
+
+    antes, ahora = set(row["texto"].split()), set(texto.split())
+    return len(antes ^ ahora) > TOLERANCIA

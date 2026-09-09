@@ -5,7 +5,6 @@ portales que lo prohiben: LinkedIn queda fuera a proposito.
 """
 from __future__ import annotations
 
-import hashlib
 import html
 import logging
 import re
@@ -230,9 +229,8 @@ def partner_pages(partners: list[dict], conn) -> list[dict]:
             continue  # ya tengo las ofertas concretas, no hace falta el hash
 
         norm = " ".join(_strip(raw).lower().split())
-        digest = hashlib.sha1(_estable(norm).encode("utf-8")).hexdigest()
         hits = [k for k in watched if k in norm]
-        if page_changed(conn, url, p.get("name", url), digest) and hits:
+        if page_changed(conn, url, p.get("name", url), _estable(norm)) and hits:
             out.append(_job(
                 f"Cambio en su pagina de empleo ({', '.join(hits[:3])})",
                 p.get("name"), p.get("city", "España"), url,
