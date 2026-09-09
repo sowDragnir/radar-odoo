@@ -75,11 +75,17 @@ def main() -> int:
         return 0
 
     if nuevas:
-        if notify.telegram(nuevas):
-            log.info("Telegram enviado")
-        creadas = notify.notion(nuevas)
-        if creadas:
-            log.info("Notion: %d fichas creadas", creadas)
+        # Notion primero: el aviso de Telegram lleva un boton a la ficha, y los
+        # botones de estado necesitan saber que pagina tienen que actualizar.
+        paginas = notify.notion(nuevas)
+        for job in nuevas:
+            page_id = paginas.get(job["uid"])
+            if page_id:
+                job["notion_page"] = page_id
+                store.guardar_notion_page(conn, job["uid"], page_id)
+        log.info("Notion: %d fichas creadas", len(paginas))
+
+        log.info("Telegram: %d avisos enviados", notify.telegram(nuevas))
         store.mark_notified(conn, nuevas)
     else:
         log.info("Sin novedades, no molesto")
