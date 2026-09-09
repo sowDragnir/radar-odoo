@@ -29,6 +29,20 @@ def _strip(text: str) -> str:
     return re.sub(r"<[^>]+>", " ", html.unescape(text or ""))
 
 
+def _estable(texto: str) -> str:
+    """Quita lo que cambia solo en cada carga y dispararia falsas alarmas.
+
+    Muchas webs meten nonces, ids de sesion, contadores de cookies o la fecha
+    en el HTML. Sin esto, el vigilante avisaria a diario de un cambio que no
+    existe. Se queda solo con palabras de letras, que es donde vive una oferta.
+    """
+    # Ojo: hay que descartar el token entero, no extraerle las letras. Sacar
+    # las letras de un nonce como "d4a2cb" produce "dacb", una palabra falsa
+    # que cambia en cada carga y dispara la alarma igualmente.
+    palabras = [t for t in texto.split() if re.fullmatch(r"[a-zñáéíóúü]{3,}", t)]
+    return " ".join(palabras)
+
+
 def _job(title, company, location, url, source, posted=None, text="") -> dict:
     return {
         "title": (title or "").strip(),
@@ -213,7 +227,7 @@ def partner_pages(partners: list[dict], conn) -> list[dict]:
             continue  # ya tengo las ofertas concretas, no hace falta el hash
 
         norm = " ".join(_strip(raw).lower().split())
-        digest = hashlib.sha1(norm.encode("utf-8")).hexdigest()
+        digest = hashlib.sha1(_estable(norm).encode("utf-8")).hexdigest()
         hits = [k for k in watched if k in norm]
         if page_changed(conn, url, p.get("name", url), digest) and hits:
             out.append(_job(
