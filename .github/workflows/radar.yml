@@ -41,3 +41,5 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
         run: python -m radar.main
+
+# Radar de ofertas Python/Odoo - github.com/sowDragnir/radar-odoo

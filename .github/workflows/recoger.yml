@@ -41,3 +41,5 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
         run: python -m radar.inbox
+
+# Recolector de pulsaciones de Telegram
