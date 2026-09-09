@@ -7,6 +7,8 @@ import os
 
 import requests
 
+from . import carta
+
 log = logging.getLogger(__name__)
 TIMEOUT = 25
 NOTION_VERSION = "2022-06-28"
@@ -99,11 +101,15 @@ def notion(jobs: list[dict]) -> dict[str, str]:
             "Encaje": {"number": j.get("score", 0)},
             "Estado": {"select": {"name": "Nueva"}},
         }
+        cuerpo: dict = {"parent": {"database_id": db}, "properties": props}
         if j.get("email"):
             props["Email"] = {"email": j["email"]}
+            # Con contacto, la ficha nace con el borrador dentro: desde el movil
+            # es copiar y pegar en vez de escribir desde cero.
+            cuerpo["children"] = carta.bloques_notion(j)
+
         r = requests.post("https://api.notion.com/v1/pages", headers=cab,
-                          json={"parent": {"database_id": db}, "properties": props},
-                          timeout=TIMEOUT)
+                          json=cuerpo, timeout=TIMEOUT)
         if r.ok:
             creadas[j["uid"]] = r.json()["id"]
         else:
