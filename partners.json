@@ -4,6 +4,11 @@
     "city": "Barcelona",
     "web": "https://qubiq.es",
     "careers": null,
+    "emails": [
+      "info@qubiq.es",
+      "portugal@qubiq.info",
+      "sevilla@qubiq.es"
+    ],
     "via": "solo-home"
   },
   {
@@ -11,6 +16,9 @@
     "city": "Barcelona/Madrid",
     "web": "https://nanobytes.es",
     "careers": "https://nanobytes.es/trabaja-con-nosotros",
+    "emails": [
+      "administracion@nanobytes.es"
+    ],
     "via": "enlace-home"
   },
   {
@@ -18,6 +26,9 @@
     "city": "Valencia/Madrid",
     "web": "https://studio73.es",
     "careers": "https://studio73.es/jobs",
+    "emails": [
+      "contacto@studio73.es"
+    ],
     "via": "ruta"
   },
   {
@@ -25,6 +36,7 @@
     "city": "Barcelona",
     "web": "https://indaws.es",
     "careers": "https://jobs.wearedynapps.com",
+    "emails": [],
     "via": "enlace-home"
   },
   {
@@ -32,6 +44,9 @@
     "city": "Remoto",
     "web": "https://tecnativa.com",
     "careers": "https://tecnativa.com/jobs",
+    "emails": [
+      "info@tecnativa.com"
+    ],
     "via": "ruta"
   },
   {
@@ -39,6 +54,9 @@
     "city": "Barcelona",
     "web": "https://sygel.es",
     "careers": null,
+    "emails": [
+      "info@sygel.es"
+    ],
     "via": "solo-home"
   },
   {
@@ -46,6 +64,10 @@
     "city": "Euskadi",
     "web": "https://landoo.es",
     "careers": "https://landoo.es/jobs",
+    "emails": [
+      "info@landoo.es",
+      "juanperez@ejemplo.com"
+    ],
     "via": "enlace-home"
   },
   {
@@ -53,6 +75,9 @@
     "city": "Barcelona",
     "web": "https://ipgrup.com",
     "careers": "https://ipgrup.com/jobs",
+    "emails": [
+      "info@ipgrup.com"
+    ],
     "via": "ruta"
   },
   {
@@ -60,6 +85,9 @@
     "city": "Madrid",
     "web": "https://comunitea.com",
     "careers": "https://comunitea.com/empleo/",
+    "emails": [
+      "info@comunitea.com"
+    ],
     "via": "enlace-home"
   },
   {
@@ -67,6 +95,9 @@
     "city": "Valencia",
     "web": "https://domatix.com",
     "careers": "https://domatix.com/jobs",
+    "emails": [
+      "hola@domatix.com"
+    ],
     "via": "ruta"
   },
   {
@@ -74,6 +105,7 @@
     "city": "Madrid",
     "web": "https://factorlibre.com",
     "careers": "https://factorlibre.com/trabaja-con-nosotros/",
+    "emails": [],
     "via": "enlace-home"
   },
   {
@@ -81,6 +113,9 @@
     "city": "Sevilla",
     "web": "https://guadaltech.es",
     "careers": "https://www.guadaltech.es/empleo/",
+    "emails": [
+      "n.datos@guadaltech.es"
+    ],
     "via": "enlace-home"
   },
   {
@@ -88,6 +123,9 @@
     "city": "Valencia",
     "web": "https://trey.es",
     "careers": null,
+    "emails": [
+      "info@trey.es"
+    ],
     "via": "solo-home"
   },
   {
@@ -95,6 +133,7 @@
     "city": "Barcelona",
     "web": "https://dynapps.eu",
     "careers": null,
+    "emails": [],
     "via": "solo-home"
   },
   {
@@ -102,6 +141,9 @@
     "city": "Madrid",
     "web": "https://octupus.es",
     "careers": null,
+    "emails": [
+      "hola@octupus.es"
+    ],
     "via": "solo-home"
   },
   {
@@ -109,6 +151,7 @@
     "city": "Barcelona",
     "web": "https://zeumat.com",
     "careers": "https://zeumat.com/trabaja-con-nosotros/",
+    "emails": [],
     "via": "enlace-home"
   },
   {
@@ -116,6 +159,11 @@
     "city": "Bizkaia",
     "web": "https://kernet.es",
     "careers": null,
+    "emails": [
+      "dcarbonero@kernet.es",
+      "santiago@kernet.es",
+      "yago@kernet.es"
+    ],
     "via": "solo-home"
   },
   {
@@ -123,6 +171,9 @@
     "city": "Zaragoza",
     "web": "https://acysos.com",
     "careers": "https://acysos.com/jobs",
+    "emails": [
+      "consultor-odoo@acysos.com"
+    ],
     "via": "enlace-home"
   }
 ]

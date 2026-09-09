@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS ajustes (
 # "ADD COLUMN IF NOT EXISTS", asi que se prueba y se ignora si ya existe.
 EXTRA = [
     "ALTER TABLE jobs ADD COLUMN notion_page TEXT",
+    "ALTER TABLE jobs ADD COLUMN email TEXT",
 ]
 
 
@@ -82,10 +83,12 @@ def new_jobs(conn: sqlite3.Connection, jobs: list[dict]) -> list[dict]:
     for job in jobs:
         job["uid"] = uid(job)
         cur = conn.execute(
-            "INSERT OR IGNORE INTO jobs (uid,title,company,location,url,source,score,posted)"
-            " VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT OR IGNORE INTO jobs"
+            " (uid,title,company,location,url,source,score,posted,email)"
+            " VALUES (?,?,?,?,?,?,?,?,?)",
             (job["uid"], job["title"], job.get("company"), job.get("location"),
-             job.get("url"), job.get("source"), job.get("score", 0), job.get("posted")),
+             job.get("url"), job.get("source"), job.get("score", 0),
+             job.get("posted"), job.get("email")),
         )
         if cur.rowcount:
             fresh.append(job)

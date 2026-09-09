@@ -32,6 +32,8 @@ def _teclado(job: dict) -> dict:
         {"text": "✅ Me apunto", "callback_data": f"ok:{job['uid']}"},
         {"text": "🗑 Descartar", "callback_data": f"no:{job['uid']}"},
     ]
+    # Telegram rechaza los enlaces mailto: en los botones (BUTTON_URL_INVALID),
+    # asi que el correo va en el texto como <code>: un toque y se copia.
     enlaces = [{"text": "🔗 Ver oferta", "url": job["url"]}]
     if job.get("notion_page"):
         pagina = job["notion_page"].replace("-", "")
@@ -57,6 +59,8 @@ def telegram(jobs: list[dict]) -> int:
             f"{html.escape(j.get('company') or '?')} · {html.escape(j.get('location') or '')}\n"
             f"Encaje: <b>{j.get('score', 0)}</b> · <code>{j.get('source','')}</code>"
         )
+        if j.get("email"):
+            texto += f"\n✉️ <code>{html.escape(j['email'])}</code>"
         r = _tg("sendMessage", chat_id=chat, text=texto, parse_mode="HTML",
                 disable_web_page_preview=True, reply_markup=_teclado(j))
         if r is not None and r.ok:
@@ -95,6 +99,8 @@ def notion(jobs: list[dict]) -> dict[str, str]:
             "Encaje": {"number": j.get("score", 0)},
             "Estado": {"select": {"name": "Nueva"}},
         }
+        if j.get("email"):
+            props["Email"] = {"email": j["email"]}
         r = requests.post("https://api.notion.com/v1/pages", headers=cab,
                           json={"parent": {"database_id": db}, "properties": props},
                           timeout=TIMEOUT)

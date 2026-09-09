@@ -43,8 +43,10 @@ def _estable(texto: str) -> str:
     return " ".join(palabras)
 
 
-def _job(title, company, location, url, source, posted=None, text="") -> dict:
+def _job(title, company, location, url, source, posted=None, text="",
+         email=None) -> dict:
     return {
+        "email": email,
         "title": (title or "").strip(),
         "company": (company or "").strip(),
         "location": (location or "").strip(),
@@ -222,7 +224,8 @@ def partner_pages(partners: list[dict], conn) -> list[dict]:
             slug = href.rsplit("/", 1)[-1].rsplit("-", 1)[0]
             titulo = slug.replace("-", " ").title()
             out.append(_job(titulo, p.get("name"), p.get("city", "España"),
-                            base + href, "partner-odoo", None, titulo))
+                            base + href, "partner-odoo", None, titulo,
+                            email=(p.get("emails") or [None])[0]))
         if vistos:
             continue  # ya tengo las ofertas concretas, no hace falta el hash
 
@@ -234,6 +237,7 @@ def partner_pages(partners: list[dict], conn) -> list[dict]:
                 f"Cambio en su pagina de empleo ({', '.join(hits[:3])})",
                 p.get("name"), p.get("city", "España"), url,
                 "partner-watch", None, norm[:1500],
+                email=(p.get("emails") or [None])[0],
             ))
     return out
 
