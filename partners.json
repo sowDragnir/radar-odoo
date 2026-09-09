@@ -1,0 +1,128 @@
+[
+  {
+    "name": "QubiQ",
+    "city": "Barcelona",
+    "web": "https://qubiq.es",
+    "careers": null,
+    "via": "solo-home"
+  },
+  {
+    "name": "Nanobytes",
+    "city": "Barcelona/Madrid",
+    "web": "https://nanobytes.es",
+    "careers": "https://nanobytes.es/trabaja-con-nosotros",
+    "via": "enlace-home"
+  },
+  {
+    "name": "Studio73",
+    "city": "Valencia/Madrid",
+    "web": "https://studio73.es",
+    "careers": "https://studio73.es/jobs",
+    "via": "ruta"
+  },
+  {
+    "name": "Indaws",
+    "city": "Barcelona",
+    "web": "https://indaws.es",
+    "careers": "https://jobs.wearedynapps.com",
+    "via": "enlace-home"
+  },
+  {
+    "name": "Tecnativa",
+    "city": "Remoto",
+    "web": "https://tecnativa.com",
+    "careers": "https://tecnativa.com/jobs",
+    "via": "ruta"
+  },
+  {
+    "name": "Sygel Technology",
+    "city": "Barcelona",
+    "web": "https://sygel.es",
+    "careers": null,
+    "via": "solo-home"
+  },
+  {
+    "name": "Landoo",
+    "city": "Euskadi",
+    "web": "https://landoo.es",
+    "careers": "https://landoo.es/jobs",
+    "via": "enlace-home"
+  },
+  {
+    "name": "IPGRUP",
+    "city": "Barcelona",
+    "web": "https://ipgrup.com",
+    "careers": "https://ipgrup.com/jobs",
+    "via": "ruta"
+  },
+  {
+    "name": "Comunitea",
+    "city": "Madrid",
+    "web": "https://comunitea.com",
+    "careers": "https://comunitea.com/empleo/",
+    "via": "enlace-home"
+  },
+  {
+    "name": "Domatix",
+    "city": "Valencia",
+    "web": "https://domatix.com",
+    "careers": "https://domatix.com/jobs",
+    "via": "ruta"
+  },
+  {
+    "name": "FactorLibre",
+    "city": "Madrid",
+    "web": "https://factorlibre.com",
+    "careers": "https://factorlibre.com/trabaja-con-nosotros/",
+    "via": "enlace-home"
+  },
+  {
+    "name": "Guadaltech",
+    "city": "Sevilla",
+    "web": "https://guadaltech.es",
+    "careers": "https://www.guadaltech.es/empleo/",
+    "via": "enlace-home"
+  },
+  {
+    "name": "Trey",
+    "city": "Valencia",
+    "web": "https://trey.es",
+    "careers": null,
+    "via": "solo-home"
+  },
+  {
+    "name": "Dynapps",
+    "city": "Barcelona",
+    "web": "https://dynapps.eu",
+    "careers": null,
+    "via": "solo-home"
+  },
+  {
+    "name": "Octupus",
+    "city": "Madrid",
+    "web": "https://octupus.es",
+    "careers": null,
+    "via": "solo-home"
+  },
+  {
+    "name": "Zeumat",
+    "city": "Barcelona",
+    "web": "https://zeumat.com",
+    "careers": "https://zeumat.com/trabaja-con-nosotros/",
+    "via": "enlace-home"
+  },
+  {
+    "name": "Kernet",
+    "city": "Bizkaia",
+    "web": "https://kernet.es",
+    "careers": null,
+    "via": "solo-home"
+  },
+  {
+    "name": "Acysos",
+    "city": "Zaragoza",
+    "web": "https://acysos.com",
+    "careers": "https://acysos.com/jobs",
+    "via": "enlace-home"
+  }
+]

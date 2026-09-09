@@ -1,0 +1,39 @@
+name: Radar Odoo
+
+on:
+  schedule:
+    # 06:00 UTC = 08:00 en Madrid en horario de verano (07:00 en invierno).
+    - cron: "0 6 * * 1-5"
+  workflow_dispatch:        # permite lanzarlo a mano desde la pestaña Actions
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # La base SQLite es lo que evita avisar dos veces de la misma oferta.
+      # Se guarda en la cache de Actions entre ejecuciones.
+      - name: Recuperar historial
+        uses: actions/cache@v4
+        with:
+          path: radar.db
+          key: radar-db-${{ github.run_id }}
+          restore-keys: radar-db-
+
+      - name: Ejecutar radar
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+        run: python -m radar.main
