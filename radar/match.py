@@ -24,16 +24,34 @@ def location_ok(job: dict) -> bool:
     return False
 
 
+CUERPO_MAX = 45  # techo de lo que puede aportar la descripcion
+
+
 def score(job: dict) -> int:
     text = job["text"]
     if not _has(text, config.KEYWORDS):
         return 0
-    points = sum(w for k, w in config.BOOST.items() if k in text)
-    if "odoo" in job.get("title", "").lower():
-        points += 30  # el titulo pesa mas que el cuerpo
+
+    titulo = job.get("title", "").lower()
+    if _has(titulo, config.TITULO_VETO) and not _has(titulo, config.TITULO_SALVA):
+        return 0
+
+    # El titulo cuenta entero; la descripcion, a cuarto de peso y con techo.
+    # Casi cualquier oferta de backend nombra Python, Docker y Postgres en su
+    # lista de deseos: sin este freno, todas parecian encajar.
+    puntos = sum(w for k, w in config.BOOST.items() if k in titulo)
+    cuerpo = sum(w for k, w in config.BOOST.items() if k in text and k not in titulo)
+    puntos += min(cuerpo // 4, CUERPO_MAX)
+
+    puntos -= sum(w for k, w in config.PENALIZA.items() if k in text)
+
+    if "odoo" in titulo:
+        puntos += 30
+    elif any(k in titulo for k in ("python", "fastapi", "django", "flask", "backend")):
+        puntos += 15
     if job.get("source", "").startswith("partner"):
-        points += 25  # un partner de Odoo moviendo ficha es la senal mas fuerte
-    return points
+        puntos += 25  # un partner de Odoo moviendo ficha es la senal mas fuerte
+    return puntos
 
 
 def keep(job: dict) -> bool:

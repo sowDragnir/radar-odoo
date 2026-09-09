@@ -32,12 +32,18 @@ cuenta. Para LinkedIn: marcador con `f_TPR=r3600&sortBy=DD`.
 
 ## Filtro
 
-Definido en `radar/config.py`:
+Definido en `radar/config.py`. Los pesos salen del CV, no de intuición: Odoo
+v15-v19, FastAPI/Flask/Django, PostgreSQL, Docker, OCA, MRP, ETL, n8n, Selenium.
 
-- Barcelona en cualquier modalidad
-- Madrid solo si es remoto
-- Remoto general, descartando el remoto exclusivo de EE.UU.
-- Puntuación por encaje (`odoo` en el título pesa mucho); umbral `MIN_SCORE`
+- Barcelona en cualquier modalidad; Madrid solo remoto; remoto general
+- Fuera el remoto exclusivo de EE.UU., y el híbrido de otra ciudad
+- El **título** puntúa entero; la descripción a un cuarto de peso y con techo.
+  Sin ese freno, cualquier oferta que nombre Python de pasada parecía encajar:
+  un puesto de Rust llegó a puntuar 102
+- Veto por título: si pide Rust, Rails, PHP o es de ventas, no es para este
+  perfil aunque el cuerpo mencione Python
+- Restan puntos el inglés nativo (nivel real B1), las prácticas y los puestos
+  de dirección (4 años de experiencia)
 
 ## Instalación
 
