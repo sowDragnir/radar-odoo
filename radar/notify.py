@@ -105,6 +105,39 @@ def notion(jobs: list[dict]) -> dict[str, str]:
     return creadas
 
 
+def notion_conocidas() -> dict[str, str]:
+    """Devuelve {enlace: page_id} de todo lo que ya esta en la tabla.
+
+    El historial local vive en la cache de GitHub Actions, que se puede perder.
+    Notion no. Consultarla antes de avisar evita el peor fallo posible: soltar
+    una tanda entera de ofertas repetidas porque se borro la cache.
+    """
+    cab = _cabeceras()
+    db = os.getenv("NOTION_DB_ID")
+    if not (cab and db):
+        return {}
+
+    conocidas: dict[str, str] = {}
+    cursor = None
+    while True:
+        payload: dict = {"page_size": 100}
+        if cursor:
+            payload["start_cursor"] = cursor
+        r = requests.post(f"https://api.notion.com/v1/databases/{db}/query",
+                          headers=cab, json=payload, timeout=TIMEOUT)
+        if not r.ok:
+            log.error("Notion consulta: %s", r.text[:200])
+            return conocidas
+        data = r.json()
+        for pagina in data["results"]:
+            enlace = pagina["properties"].get("Enlace", {}).get("url")
+            if enlace:
+                conocidas[enlace] = pagina["id"]
+        if not data.get("has_more"):
+            return conocidas
+        cursor = data["next_cursor"]
+
+
 def notion_estado(page_id: str, estado: str) -> bool:
     """Cambia el Estado de una ficha ya creada."""
     cab = _cabeceras()

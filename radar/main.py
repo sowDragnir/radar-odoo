@@ -62,6 +62,19 @@ def main() -> int:
 
     nuevas = store.new_jobs(conn, candidatas)
     log.info("Nuevas (no vistas antes) %d", len(nuevas))
+
+    # Segunda red de seguridad: si la cache de Actions se perdio, la base local
+    # viene vacia y todo parece nuevo. Notion recuerda lo que ya se aviso.
+    if nuevas:
+        conocidas = notify.notion_conocidas()
+        if conocidas:
+            repetidas = [j for j in nuevas if j["url"] in conocidas]
+            for job in repetidas:
+                store.guardar_notion_page(conn, job["uid"], conocidas[job["url"]])
+            if repetidas:
+                log.info("Ya estaban en Notion, no aviso de %d", len(repetidas))
+                store.mark_notified(conn, repetidas)
+                nuevas = [j for j in nuevas if j["url"] not in conocidas]
     if len(nuevas) > config.MAX_AVISOS:
         log.info("Recorto a las %d mejores", config.MAX_AVISOS)
         nuevas = nuevas[:config.MAX_AVISOS]
